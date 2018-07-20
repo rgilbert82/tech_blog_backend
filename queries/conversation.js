@@ -62,7 +62,7 @@ function deleteConversation(req, res, next) {
 
 function getComments(req, res, next) {
   var conversationId = req.params.id;
-  var sql = 'SELECT comments.*, users.name AS username, users.image_url AS avatar FROM comments ' +
+  var sql = 'SELECT comments.*, users.name AS username, users.image_url AS user_avatar FROM comments ' +
             'INNER JOIN users ON users.id = comments.user_id ' +
             'WHERE comments.conversation_id = $1 ' +
             'ORDER BY created_at ASC;';

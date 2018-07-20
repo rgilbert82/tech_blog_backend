@@ -27,6 +27,7 @@ function createComment(req, res, next) {
       db.one(sql, [body, user_id, conversation_id])
         .then(function(data) {
           data.username = user.name;
+          data.user_avatar = user.image_url;
           callback(null, data);
         }).catch(function(err) {
           callback(err, null);

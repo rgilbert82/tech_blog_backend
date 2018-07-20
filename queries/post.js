@@ -68,7 +68,7 @@ function getPostConversation(req, res, next) {
   async.waterfall([
     // Get Post
     function(callback) {
-      var sql = 'SELECT posts.*, users.name AS username FROM posts ' +
+      var sql = 'SELECT posts.*, users.name AS username, users.image_url AS user_avatar FROM posts ' +
                 'INNER JOIN users ON users.id = posts.user_id ' +
                 'WHERE slug = $1;';
       db.one(sql, [postSlug])
@@ -90,7 +90,7 @@ function getPostConversation(req, res, next) {
     },
     // Then get comments
     function(obj, callback) {
-      var sql = 'SELECT comments.*, users.name AS username, users.image_url AS avatar FROM comments ' +
+      var sql = 'SELECT comments.*, users.name AS username, users.image_url AS user_avatar FROM comments ' +
                 'INNER JOIN users ON users.id = comments.user_id ' +
                 'WHERE comments.conversation_id = $1 ' +
                 'ORDER BY created_at ASC;';
