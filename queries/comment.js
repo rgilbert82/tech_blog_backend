@@ -47,7 +47,16 @@ function createComment(req, res, next) {
 //=============================================================================
 
 function deleteComment(req, res, next) {
+  var commentId = req.params.id;
+  var sql = 'DELETE FROM comments WHERE id = $1;';
 
+  db.result(sql, [commentId])
+    .then(function(data) {
+      res.status(200)
+        .json({ status: 'success', message: 'deleted comment' })
+    }).catch(function(err) {
+      return next(err);
+    });
 }
 
 //=============================================================================

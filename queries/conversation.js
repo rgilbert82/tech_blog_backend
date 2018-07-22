@@ -62,6 +62,7 @@ function deleteConversation(req, res, next) {
 
 function getComments(req, res, next) {
   var conversationId = req.params.id;
+  var deleteSql      = 'DELETE FROM conversations WHERE id = $1;';
   var sql = 'SELECT comments.*, users.name AS username, users.image_url AS user_avatar FROM comments ' +
             'INNER JOIN users ON users.id = comments.user_id ' +
             'WHERE comments.conversation_id = $1 ' +
@@ -69,6 +70,9 @@ function getComments(req, res, next) {
 
   db.any(sql, [conversationId])
     .then(function(data) {
+      if (data.length === 0) {
+        db.result(deleteSql, [conversationId]).catch();
+      }
       res.status(200)
         .json(data);
     }).catch(function(err) {
